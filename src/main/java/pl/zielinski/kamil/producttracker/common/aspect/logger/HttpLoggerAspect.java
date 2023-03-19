@@ -12,18 +12,20 @@ import org.springframework.stereotype.Component;
 import pl.zielinski.kamil.producttracker.common.aspect.logger.communication.CommunicationFactory;
 import pl.zielinski.kamil.producttracker.common.aspect.logger.extractor.Request;
 import pl.zielinski.kamil.producttracker.common.aspect.logger.extractor.RequestExtractorFacade;
-import pl.zielinski.kamil.producttracker.common.log.AbstractLogger;
+import pl.zielinski.kamil.producttracker.common.log.Log;
 
 @Aspect
 @Component
 @EnableAspectJAutoProxy
-public class HttpLoggerAspect extends AbstractLogger {
+public class HttpLoggerAspect {
 
+    private final Log log;
     private final RequestExtractorFacade requestExtractorFacade;
     private final CommunicationFactory communicationFactory;
 
     @Autowired
-    public HttpLoggerAspect(RequestExtractorFacade requestExtractorFacade, CommunicationFactory communicationFactory) {
+    public HttpLoggerAspect(Log log, RequestExtractorFacade requestExtractorFacade, CommunicationFactory communicationFactory) {
+        this.log = log;
         this.requestExtractorFacade = requestExtractorFacade;
         this.communicationFactory = communicationFactory;
     }
@@ -37,12 +39,12 @@ public class HttpLoggerAspect extends AbstractLogger {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Request request = requestExtractorFacade.extractRequest(methodSignature);
 
-        logInfo(communicationFactory.createRequestDTO(request).toString());
+        log.info(communicationFactory.createRequestDTO(request).toString());
 
         // Even when throwing exceptions we will map it to ResponseEntity with ExceptionMapperAspect
         ResponseEntity responseEntity = (ResponseEntity) joinPoint.proceed();
 
-        logInfo(communicationFactory.createResponseDTO(request, responseEntity.getBody()).toString());
+        log.info(communicationFactory.createResponseDTO(request, responseEntity.getBody()).toString());
 
         return responseEntity;
     }
