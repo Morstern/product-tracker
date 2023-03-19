@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pl.zielinski.kamil.producttracker.common.exception.UnexpectedException;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;

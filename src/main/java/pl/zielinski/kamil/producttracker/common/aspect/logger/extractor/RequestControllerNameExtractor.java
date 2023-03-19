@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-public class RequestControllerNameExtractor implements RequestExtractor<String, MethodSignature>{
+public class RequestControllerNameExtractor implements RequestExtractor<String, MethodSignature> {
 
     private final String REQUEST_CONTROLLER_NAME_NOT_FOUND_EXCEPTION = "Request Controller name not found within: %s";
 
@@ -21,7 +21,7 @@ public class RequestControllerNameExtractor implements RequestExtractor<String, 
 
         Matcher m = REGEX_PATTERN.matcher(nameWithPackage);
 
-        if(m.find()){
+        if (m.find()) {
             return m.group(2);
         }
 

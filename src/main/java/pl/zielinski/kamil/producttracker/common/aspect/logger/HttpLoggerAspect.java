@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMethod;
-import pl.zielinski.kamil.producttracker.common.aspect.logger.communication.CommunicationDTO;
 import pl.zielinski.kamil.producttracker.common.aspect.logger.communication.CommunicationFactory;
 import pl.zielinski.kamil.producttracker.common.aspect.logger.extractor.Request;
 import pl.zielinski.kamil.producttracker.common.aspect.logger.extractor.RequestControllerNameExtractor;
