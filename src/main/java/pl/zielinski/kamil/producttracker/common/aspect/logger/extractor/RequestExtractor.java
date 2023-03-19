@@ -1,5 +1,5 @@
-package pl.zielinski.kamil.producttracker.common.aspect.logger.method;
+package pl.zielinski.kamil.producttracker.common.aspect.logger.extractor;
 
-public interface RequestExtractor<EXTRACT, FROM> {
+interface RequestExtractor<EXTRACT, FROM> {
     EXTRACT extract(FROM from);
 }

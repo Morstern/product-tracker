@@ -1,5 +1,7 @@
-package pl.zielinski.kamil.producttracker.common.annotation;
+package pl.zielinski.kamil.producttracker.common.aspect.logger;
 
+
+import org.springframework.stereotype.Component;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,5 +10,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
+@Component
 public @interface HttpLogger {
 }

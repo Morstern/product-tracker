@@ -1,5 +1,6 @@
-package pl.zielinski.kamil.producttracker.common.aspect.logger.method;
+package pl.zielinski.kamil.producttracker.common.aspect.logger.extractor;
 
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,14 +14,14 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component
-public class RequestMethodExtractor implements RequestExtractor<RequestMethod, Method> {
+public class RequestMethodExtractor implements RequestExtractor<RequestMethod, MethodSignature> {
     private final String METHOD_SHOULD_HAVE_EXACTLY_ONE_REQUEST_MAPPING_ERROR_MESSAGE = "Method should have exactly one RequestMapping";
     private final String REQUEST_MAPPING_ANNOTATION_SHOULD_HAVE_EXACTLY_ONE_METHOD = "RequestMapping annotation should have exactly one method";
 
     private final Predicate<Annotation> IS_REQUEST_MAPPING_PRESENT = annotation -> annotation.annotationType().isAnnotationPresent(RequestMapping.class);
 
-    public RequestMethod extract(Method method) {
-        Annotation[] annotations = method.getDeclaredAnnotations();
+    public RequestMethod extract(MethodSignature methodSignature) {
+        Annotation[] annotations = methodSignature.getMethod().getDeclaredAnnotations();
 
         List<RequestMapping> annotationsWithRequestMapping = Arrays.stream(annotations)
                 .filter(IS_REQUEST_MAPPING_PRESENT)

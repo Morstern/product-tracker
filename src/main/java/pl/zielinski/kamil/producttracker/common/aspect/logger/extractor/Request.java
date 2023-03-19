@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @AllArgsConstructor
 @Builder
 public class Request {
-    RequestMethod requestMethod;
-    String requestControllerName;
+    private RequestMethod requestMethod;
+    private String requestControllerName;
+    private String requestMethodName;
 }

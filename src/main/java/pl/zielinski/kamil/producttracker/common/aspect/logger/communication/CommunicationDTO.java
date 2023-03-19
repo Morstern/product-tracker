@@ -1,4 +1,4 @@
-package pl.zielinski.kamil.producttracker.common.aspect.logger;
+package pl.zielinski.kamil.producttracker.common.aspect.logger.communication;
 
 
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ public class CommunicationDTO {
     private RequestMethod requestMethod;
     private String controllerName;
     private String methodName;
-    private String body;
+    private Object body;
     private CommunicationDirection communicationDirection;
 
     public enum CommunicationDirection {
