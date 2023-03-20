@@ -9,25 +9,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import pl.zielinski.kamil.producttracker.common.aspect.logger.communication.CommunicationFactory;
+import pl.zielinski.kamil.producttracker.common.aspect.logger.communication.HttpLogFactory;
 import pl.zielinski.kamil.producttracker.common.aspect.logger.extractor.Request;
 import pl.zielinski.kamil.producttracker.common.aspect.logger.extractor.RequestExtractorFacade;
-import pl.zielinski.kamil.producttracker.common.log.Log;
+import pl.zielinski.kamil.producttracker.common.log.LogFacade;
 
 @Aspect
 @Component
 @EnableAspectJAutoProxy
 public class HttpLoggerAspect {
 
-    private final Log log;
+    private final LogFacade logFacade;
     private final RequestExtractorFacade requestExtractorFacade;
-    private final CommunicationFactory communicationFactory;
+    private final HttpLogFactory httpLogFactory;
 
     @Autowired
-    public HttpLoggerAspect(Log log, RequestExtractorFacade requestExtractorFacade, CommunicationFactory communicationFactory) {
-        this.log = log;
+    public HttpLoggerAspect(LogFacade logFacade, RequestExtractorFacade requestExtractorFacade,
+                            HttpLogFactory httpLogFactory) {
+        this.logFacade = logFacade;
         this.requestExtractorFacade = requestExtractorFacade;
-        this.communicationFactory = communicationFactory;
+        this.httpLogFactory = httpLogFactory;
     }
 
     @Pointcut(value = "@within(pl.zielinski.kamil.producttracker.common.annotation.architecture.KZRestController)")
@@ -37,14 +38,14 @@ public class HttpLoggerAspect {
     @Around(value = "withinKZRestController()")
     public Object logRequestAndResponse(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        Request request = requestExtractorFacade.extractRequest(methodSignature);
+        Request request = requestExtractorFacade.getRequestData(methodSignature);
 
-        log.info(communicationFactory.createRequestDTO(request).toString());
+        logFacade.info(httpLogFactory.createRequestDTO(request).toString());
 
         // Even when throwing exceptions we will map it to ResponseEntity with ExceptionMapperAspect
-        ResponseEntity responseEntity = (ResponseEntity) joinPoint.proceed();
+        ResponseEntity<?> responseEntity = (ResponseEntity<?>) joinPoint.proceed();
 
-        log.info(communicationFactory.createResponseDTO(request, responseEntity.getBody()).toString());
+        logFacade.info(httpLogFactory.createResponseDTO(request, responseEntity).toString());
 
         return responseEntity;
     }

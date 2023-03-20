@@ -12,6 +12,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getProducts(@PathVariable("id") long id) {
+
         return ResponseEntity.ok("test");
     }
 }

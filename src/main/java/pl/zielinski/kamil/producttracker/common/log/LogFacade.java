@@ -3,10 +3,10 @@ package pl.zielinski.kamil.producttracker.common.log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import pl.zielinski.kamil.producttracker.common.annotation.architecture.KZFacade;
 
-@Component
-public class Log {
+@KZFacade
+public class LogFacade {
     Logger log = LoggerFactory.getLogger(getClass());
 
     public void info(String format, Object... args) {
